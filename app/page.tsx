@@ -128,7 +128,7 @@ export default function Home() {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-500 hover:from-blue-700 hover:via-purple-700 hover:to-cyan-600 text-white text-lg px-8 py-6">
                   <Link href="/projects">
-                    View My Portfolio
+                    View My Projects
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Link>
                 </Button>
