@@ -7,8 +7,10 @@ import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'Muhammad Hammad - Professional Fullstack Developer',
-  description: 'Professional portfolio of Muhammad Hammad, a skilled fullstack developer specializing in modern web technologies, React, Next.js, and Node.js development.',
-  keywords: 'fullstack developer, web developer, React, Next.js, Node.js, JavaScript, TypeScript, portfolio',
+  description:
+    'Professional portfolio of Muhammad Hammad, a skilled fullstack developer specializing in modern web technologies, React, Next.js, and Node.js development.',
+  keywords:
+    'fullstack developer, web developer, React, Next.js, Node.js, JavaScript, TypeScript, portfolio',
   authors: [{ name: 'Muhammad Hammad' }],
   creator: 'Muhammad Hammad',
   openGraph: {
@@ -27,15 +29,19 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-        <link rel="icon" href="/favicon.ico" />
+        {/* ✅ Google Fonts */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+
+        {/* ✅ Single favicon (from /public/favicon.ico) */}
+        <link rel="icon" href="/portfolio.png" />
       </head>
       <body className="antialiased">
         <AnimatedBackground />
         <Navbar />
-        <main className="pt-16 min-h-screen">
-          {children}
-        </main>
+        <main className="pt-16 min-h-screen">{children}</main>
         <Footer />
         <Toaster />
       </body>
