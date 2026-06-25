@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,17 +10,17 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { 
   Mail, 
-  Phone, 
   MapPin, 
   Send, 
   MessageCircle,
-  Clock,
   Globe,
   Linkedin,
   Github,
   CheckCircle,
   User,
-  Briefcase
+  Briefcase,
+  Handshake,
+  Clock
 } from 'lucide-react';
 
 export default function Contact() {
@@ -31,7 +31,15 @@ export default function Contact() {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (showThankYou) {
+      const timer = setTimeout(() => setShowThankYou(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showThankYou]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -86,10 +94,8 @@ ${formData.message}
         window.open(whatsappUrl, '_blank');
       }, 1000);
 
-      toast({
-        title: "Message Sent Successfully!",
-        description: "Your inquiry has been sent via email and WhatsApp. I'll respond within 24 hours.",
-      });
+      setShowThankYou(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
       toast({
         title: "Error",
@@ -176,46 +182,73 @@ ${formData.message}
   ];
 
   return (
-    <div className="min-h-screen py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
+    <div className="min-h-screen py-32">
+      {/* Thank You Popup */}
+      <AnimatePresence>
+        {showThankYou && (
           <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative mx-auto w-24 h-24 mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
           >
             <motion.div
-              animate={{ 
-                rotate: 360,
-                scale: [1, 1.1, 1]
-              }}
-              transition={{ 
-                rotate: { duration: 10, repeat: Infinity, ease: "linear" },
-                scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-              }}
-              className="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center"
+              initial={{ scale: 0.7, opacity: 0, y: 40 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: -20 }}
+              transition={{ type: 'spring', damping: 22, stiffness: 280 }}
+              className="relative mx-4 max-w-sm w-full rounded-3xl overflow-hidden"
+              style={{ border: '1px solid rgba(128,82,255,0.35)', background: '#0a0a0a' }}
             >
-              <Mail className="w-12 h-12 text-white" />
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-cyan-500/10" />
+              <div className="relative p-10 text-center">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.15, type: 'spring', stiffness: 300 }}
+                  className="w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4)' }}
+                >
+                  <CheckCircle className="w-10 h-10 text-white" />
+                </motion.div>
+                <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  Your message has been sent. I&apos;ll get back to you within 24 hours.
+                </p>
+                <motion.div
+                  initial={{ width: '100%' }}
+                  animate={{ width: '0%' }}
+                  transition={{ duration: 3, ease: 'linear' }}
+                  className="mt-6 h-1 rounded-full"
+                  style={{ background: 'linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4)' }}
+                />
+              </div>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Hero Section */}
+        <div className="text-center mb-20 scroll-animate">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
+          >
+            <Handshake className="w-4 h-4 text-cyan-400" />
+            <span className="text-sm font-medium text-slate-300">Get In Touch</span>
+          </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-500 bg-clip-text text-transparent">
-              Let's Work Together
-            </span>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white">
+            Let&apos;s <span className="text-gradient">Connect</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
             Ready to transform your ideas into exceptional digital experiences? 
-            I'm here to help you build innovative solutions that drive success and growth.
+            I&apos;m here to help you build innovative solutions.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}

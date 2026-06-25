@@ -2,7 +2,6 @@ import './globals.css';
 import type { Metadata } from 'next';
 import Navbar from '@/components/ui/navbar';
 import Footer from '@/components/ui/footer';
-import AnimatedBackground from '@/components/ui/animated-background';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
@@ -20,28 +19,25 @@ export const metadata: Metadata = {
     locale: 'en_US',
   },
 };
-
+// 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
-        {/* ✅ Google Fonts */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap"
           rel="stylesheet"
         />
-
-        {/* ✅ Single favicon (from /public/favicon.ico) */}
         <link rel="icon" href="/portfolio.png" />
+        <meta name="theme-color" content="#000000" />
       </head>
       <body className="antialiased">
-        <AnimatedBackground />
         <Navbar />
-        <main className="pt-16 min-h-screen">{children}</main>
+        <main className="relative min-h-screen">{children}</main>
         <Footer />
         <Toaster />
       </body>

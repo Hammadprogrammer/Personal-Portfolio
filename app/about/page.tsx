@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { 
   Code2, 
@@ -16,10 +15,9 @@ import {
   MapPin,
   Briefcase,
   GitBranch,
-  Download,
   Mail,
-  Phone,
-  MessageCircle
+  MessageCircle,
+  User
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -76,103 +74,72 @@ export default function About() {
 
   const contactInfo = [
     { icon: Mail, label: "Email", value: "hammadzahid221@gmail.com", href: "mailto:hammadzahid221@gmail.com" },
-    { icon: Phone, label: "Phone", value: "+92 311 8270539", href: "tel:+923118270539" },
-    { icon: MessageCircle, label: "WhatsApp", value: "+923118270539", href: "https://wa.me/923118270539" }
+    { icon: MessageCircle, label: "WhatsApp", value: "+92 311 8270539", href: "https://wa.me/923118270539" }
   ];
 
-  const handleDownloadCV = () => {
-    const link = document.createElement('a');
-    link.href = '/Hammad Full stack developer (2).pdf';
-    link.download = '/Hammad Full stack developer (2).pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   return (
-    <div className="min-h-screen py-20">
+    <div className="min-h-screen py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-     
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
+        {/* Hero */}
+        <div className="text-center mb-20 scroll-animate">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative mx-auto w-32 h-32 mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
           >
-            <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 rounded-full p-1"
-            >
-              <div className="w-full h-full bg-background rounded-full flex items-center justify-center">
-                <motion.div
-                  animate={{ rotateY: [0, 360] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  className="text-4xl font-bold bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent"
-                >
-                  MH
-                </motion.div>
-              </div>
-            </motion.div>
+            <User className="w-4 h-4 text-blue-400" />
+            <span className="text-sm font-medium text-slate-300">About Me</span>
           </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-500 bg-clip-text text-transparent">
-              About Muhammad Hammad
-            </span>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white">
+            Muhammad <span className="text-gradient">Hammad</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
+          <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed mb-8">
             Passionate fullstack developer with 1+ years of professional experience creating scalable web applications 
-            and innovative digital solutions. I specialize in transforming complex business requirements into elegant, 
-            user-friendly applications that drive growth and success.
+            and innovative digital solutions.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button 
-                onClick={handleDownloadCV}
-                className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-500 hover:from-blue-700 hover:via-purple-700 hover:to-cyan-600 text-white"
-              >
-                <Download className="mr-2 w-4 h-4" />
-                Download CV
+              <Button asChild className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-500 hover:from-blue-500 hover:via-purple-500 hover:to-cyan-400 text-white shadow-lg shadow-blue-500/25">
+                <Link href="/contact">
+                  Hire Me
+                </Link>
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button asChild variant="outline">
-                <Link href="/contact">
-                  Get In Touch
+              <Button asChild variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10">
+                <Link href="/projects">
+                  View Projects
                 </Link>
               </Button>
             </motion.div>
           </div>
-        </motion.div>     
+        </div>     
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {personalInfo.map((info, index) => (
             <motion.div
               key={info.label}
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
+              viewport={{ once: true }}
               whileHover={{ y: -5, scale: 1.02 }}
+              className="group"
             >
-              <Card className="p-6 text-center bg-card/50 backdrop-blur-sm border-2 border-border/50 hover:border-primary/50 transition-all duration-300">
+              <div className="p-6 text-center rounded-3xl glass glass-hover">
                 <motion.div
                   whileHover={{ rotate: 360, scale: 1.1 }}
                   transition={{ duration: 0.5 }}
-                  className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4"
+                  className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/25"
                 >
-                  <info.icon className="w-6 h-6 text-white" />
+                  <info.icon className="w-7 h-7 text-white" />
                 </motion.div>
-                <h3 className="font-semibold text-lg mb-2">{info.label}</h3>
-                <p className="text-muted-foreground">{info.value}</p>
-              </Card>
+                <h3 className="font-semibold text-lg mb-2 text-white">{info.label}</h3>
+                <p className="text-slate-400">{info.value}</p>
+              </div>
             </motion.div>
           ))}
         </div>

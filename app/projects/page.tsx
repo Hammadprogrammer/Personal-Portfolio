@@ -5,9 +5,31 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-  Github,
-  Code,
+  ExternalLink,
+  FolderOpen,
+  ArrowRight
 } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+
+function ProjectImage({ src, alt, color }: { src: string; alt: string; color: string }) {
+  const [errored, setErrored] = useState(false);
+  if (errored || !src) {
+    return (
+      <div className={`w-full h-full bg-gradient-to-br ${color} flex items-center justify-center`}>
+        <FolderOpen className="w-16 h-16 text-white/40" />
+      </div>
+    );
+  }
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setErrored(true)}
+      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+    />
+  );
+}
 
 export default function Projects() {
   const projects = [
@@ -40,6 +62,32 @@ export default function Projects() {
       live: "https://www.pearlepp.co.uk/"
     },
     {
+      title: "All Exam Help — Academic Platform",
+      description: "A professional academic assistance platform offering exam help, tutoring, and study resources. Features a clean modern UI with service listings, expert profiles, and a seamless booking/contact flow. Built for students seeking reliable academic support.",
+      image: "https://api.microlink.io/?url=https://all-exam-help-ihio.vercel.app/&screenshot=true&meta=false&embed=screenshot.url",
+      technologies: ["Next.js", "React", "Tailwind CSS", "TypeScript", "Vercel"],
+      color: "from-rose-500 to-orange-500",
+      features: [
+        "Service listings with expert profiles",
+        "Responsive academic resource pages",
+        "Seamless contact & booking flow"
+      ],
+      live: "https://all-exam-help-ihio.vercel.app/"
+    },
+    {
+      title: "Hire Class Buddy — Tutoring Platform",
+      description: "A tutoring marketplace that connects students with class buddies and tutors. Features subject-based browsing, tutor profiles, real-time availability, and an intuitive hire flow — all wrapped in a professional, mobile-first design.",
+      image: "https://api.microlink.io/?url=https://hire-class-buddy.vercel.app/&screenshot=true&meta=false&embed=screenshot.url",
+      technologies: ["Next.js", "React", "Tailwind CSS", "TypeScript", "Vercel"],
+      color: "from-violet-500 to-indigo-600",
+      features: [
+        "Subject-based tutor browsing",
+        "Tutor profile & availability cards",
+        "Mobile-first responsive design"
+      ],
+      live: "https://hire-class-buddy.vercel.app/"
+    },
+    {
       title: "Weather Forecast App",
       description: "A simple and responsive weather app built with React and Tailwind CSS. Users can enter any city name to fetch real-time temperature data using a weather API. Designed for speed, clarity, and a smooth user experience.",
       image: "/weather.png",
@@ -50,67 +98,32 @@ export default function Projects() {
         "Real-time temperature display",
         "Responsive design with Tailwind CSS"
       ],
-      // github: "https://github.com/your-username/weather-app",
       live: "https://weather-app-react-three-gules.vercel.app/"
-    },
-    {
-      title: "Personal Portfolio Website",
-      description: "A fully responsive and animated portfolio built with TypeScript, Tailwind CSS, and Framer Motion. Showcases projects, skills, and contact form using React Hook Form for smooth user interaction. Designed for performance, interactivity, and modern aesthetics.",
-      image: "/portfolio.png",
-      technologies: [
-        "TypeScript",
-        "Tailwind CSS",
-        "tailwind-merge",
-        "tailwindcss-animate",
-        "Framer Motion",
-        "React Hook Form"
-      ],
-      color: "from-emerald-500 to-teal-600",
-      features: [
-        "Animated sections with Framer Motion",
-        "Responsive design across all devices",
-        "Validated contact form"
-      ],
-      // github: "https://github.com/your-username/portfolio",
-      live: "/"
     }
   ];
 
   return (
-    <div className="min-h-screen py-20">
+    <div className="min-h-screen py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
+        <div className="text-center mb-20 scroll-animate">
           <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative mx-auto w-24 h-24 mb-8"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
           >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-              className="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center"
-            >
-              <Code className="w-12 h-12 text-white" />
-            </motion.div>
+            <FolderOpen className="w-4 h-4 text-purple-400" />
+            <span className="text-sm font-medium text-slate-300">Portfolio</span>
           </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-500 bg-clip-text text-transparent">
-              My Projects
-            </span>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white">
+            My <span className="text-gradient">Projects</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            A showcase of my recent work in web development, mobile applications, and backend services.
-            Each project represents a unique challenge and innovative solution.
+          <p className="text-xl text-slate-400 max-w-3xl mx-auto">
+            A showcase of my recent work in web development. Each project represents a unique challenge and innovative solution.
           </p>
-        </motion.div>
+        </div>
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -130,46 +143,31 @@ export default function Projects() {
               className="perspective-1000"
             >
               <Card className="overflow-hidden bg-card/50 backdrop-blur-sm border-2 border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 group">
-                {/* Project Image */}
-                <div className="relative h-48 overflow-hidden">
-                  <motion.img
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.5 }}
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                {/* Color accent bar */}
+                <div className={`h-1 w-full bg-gradient-to-r ${project.color}`} />
 
-                  {/* GitHub & Live Buttons */}
-                  <div className="absolute bottom-4 right-4 flex gap-2">
-                    {project.live && (
+                {/* Project Image */}
+                <div className="relative h-52 overflow-hidden">
+                  <ProjectImage src={project.image} alt={project.title} color={project.color} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+
+                  {/* Live Button */}
+                  {project.live && (
+                    <div className="absolute bottom-4 right-4">
                       <motion.a
                         href={project.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.2 }}
+                        whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        <Button size="sm" variant="secondary" className="bg-background/80 backdrop-blur-sm text-xs">
-                          Live
+                        <Button size="sm" className={`bg-gradient-to-r ${project.color} text-white text-xs shadow-lg border-0 flex items-center gap-1.5`}>
+                          <ExternalLink className="w-3 h-3" />
+                          Live Preview
                         </Button>
                       </motion.a>
-                    )}
-                    {/* {project.github && (
-                      <motion.a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileHover={{ scale: 1.2 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Button size="sm" variant="secondary" className="bg-background/80 backdrop-blur-sm">
-                          <Github className="w-4 h-4" />
-                        </Button>
-                      </motion.a>
-                    )} */}
-                  </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Project Content */}
